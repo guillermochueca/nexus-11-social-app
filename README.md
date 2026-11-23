@@ -38,7 +38,7 @@ Diseñada como Proyecto Final de Ciclo (DAM), esta red social demuestra la imple
 | UI y lógica compartida | Kotlin Multiplatform + Compose Multiplatform |
 | Navegación | Voyager (navigator, tabs y transiciones) |
 | Red | Ktor Client (OkHttp en Android, Darwin en iOS) + kotlinx.serialization |
-| Backend / datos | Firebase Realtime Database (API REST) |
+| Backend / datos | Firebase Authentication (JWT) + Realtime Database, vía API REST |
 | Imágenes | Kamel (carga) y Peekaboo (selector de galería) |
 | Persistencia local | multiplatform-settings |
 | Fechas | kotlinx-datetime |
@@ -75,6 +75,14 @@ En Windows: `gradlew.bat :composeApp:assembleDebug`.
 
 ### iOS
 Abre `iosApp/iosApp.xcodeproj` en Xcode y ejecuta el esquema `iosApp` en un simulador o dispositivo.
+
+## ⚠️ Limitaciones conocidas y mejoras previstas
+Es un proyecto académico y estas son las cosas que mejoraría en una siguiente versión:
+
+- **Configuración:** la URL de la base de datos y la clave de Firebase están escritas en el código y repartidas en varios repositorios (`AuthRepository`, `DataRepository`, `ChatRepository`, `Config`). Pasarlas a un único punto de configuración por entorno.
+- **Contraseñas:** la app aplica un hash SHA-256 a la contraseña antes de enviarla a Firebase Auth. Firebase ya se encarga de guardarla de forma segura, así que ese paso es innecesario y habría que quitarlo.
+- **Tests:** solo existe el test de ejemplo de la plantilla. Faltan tests de los repositorios y de la lógica compartida en `commonTest`.
+- **Arquitectura:** los repositorios acceden directamente a la API REST. Un siguiente paso sería separar una capa de dominio e inyectar dependencias (por ejemplo con Koin).
 
 ## 📌 Notas
 Proyecto Final de Ciclo (DAM). El backend usa una instancia de Firebase Realtime Database pensada para desarrollo y demostración.
