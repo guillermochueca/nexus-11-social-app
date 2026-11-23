@@ -31,17 +31,50 @@ Diseñada como Proyecto Final de Ciclo (DAM), esta red social demuestra la imple
 * Buscador de usuarios integrado para explorar la red y gestionar seguimientos.
 
 ## 🛠️ Stack Tecnológico
-* **Lenguaje:** Kotlin
-* **Core & UI:** Kotlin Multiplatform + Compose Multiplatform
-* **Arquitectura:** Patrón de diseño orientado a la separación de responsabilidades y gestión reactiva del estado de la UI.
+
+| Área | Tecnología |
+|------|-----------|
+| Lenguaje | Kotlin 2.0 |
+| UI y lógica compartida | Kotlin Multiplatform + Compose Multiplatform |
+| Navegación | Voyager (navigator, tabs y transiciones) |
+| Red | Ktor Client (OkHttp en Android, Darwin en iOS) + kotlinx.serialization |
+| Backend / datos | Firebase Realtime Database (API REST) |
+| Imágenes | Kamel (carga) y Peekaboo (selector de galería) |
+| Persistencia local | multiplatform-settings |
+| Fechas | kotlinx-datetime |
+
+## 🧱 Estructura del proyecto
+
+```
+composeApp/src/
+├── commonMain/kotlin/com/example/nexus11/
+│   ├── data/        # Repositorios (auth, chat, datos), caché y modelos (User, Post, Mensaje, Story)
+│   ├── ui/
+│   │   ├── screens/ # auth, home, chat, post, profile, splash
+│   │   └── theme/   # Colores y tema dinámico
+│   └── utils/       # Utilidades (hash de contraseñas)
+├── androidMain/     # Punto de entrada y código específico de Android
+└── iosMain/         # Punto de entrada y código específico de iOS
+iosApp/              # Proyecto Xcode que aloja la app en iOS
+```
+
+La lógica de negocio, los repositorios y toda la interfaz viven en `commonMain` y se comparten entre Android e iOS. Solo lo estrictamente específico de cada plataforma está en `androidMain` e `iosMain`.
 
 ## 🚀 Cómo ejecutar el proyecto
 
-Este proyecto contiene módulos compartidos (`/composeApp` con `commonMain`, `iosMain`, `jvmMain`) y el punto de entrada nativo para Apple (`/iosApp`).
+**Requisitos:** Android Studio (o IntelliJ IDEA) con el plugin de Kotlin Multiplatform, JDK 17+ y, para iOS, macOS con Xcode.
 
-### Compilar y ejecutar en Android
-Puedes usar la configuración de ejecución de tu IDE (Android Studio / IntelliJ) o compilar desde la terminal:
+### Android
+Desde el IDE con la configuración de `composeApp`, o desde la terminal:
 
-**macOS/Linux:**
 ```bash
 ./gradlew :composeApp:assembleDebug
+```
+
+En Windows: `gradlew.bat :composeApp:assembleDebug`.
+
+### iOS
+Abre `iosApp/iosApp.xcodeproj` en Xcode y ejecuta el esquema `iosApp` en un simulador o dispositivo.
+
+## 📌 Notas
+Proyecto Final de Ciclo (DAM). El backend usa una instancia de Firebase Realtime Database pensada para desarrollo y demostración.
